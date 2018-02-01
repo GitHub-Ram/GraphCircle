@@ -14,16 +14,17 @@ namespace graph
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
-            Dictionary<int, UIColor> colorandvalue = new Dictionary<int, UIColor>();
-            colorandvalue.Add(40,UIColor.Blue);
-            colorandvalue.Add(60, UIColor.Red);
-            colorandvalue.Add(90, UIColor.Yellow);
+            Dictionary< UIColor,float> colorandvalue = new Dictionary< UIColor,float>();
+            colorandvalue.Add(UIColor.Blue,40);
+            colorandvalue.Add(UIColor.Red,60);
+            colorandvalue.Add(UIColor.Yellow,90);
             GraphSpecs specs1 = new GraphSpecs
             {
                 percentageValuesWithColor = colorandvalue,
                 strokeWidth = 8,
                 minimumRadius = (nfloat)(View.Bounds.Width * 0.25),
-                space = 5
+                space = 5,
+                animDuration = 0.5f
             };
             circleGraphView.setGraph(specs1);
             Console.WriteLine("View Load");

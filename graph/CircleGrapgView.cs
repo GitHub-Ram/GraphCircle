@@ -11,11 +11,13 @@ namespace graph
 {
     public class GraphSpecs
     {
-        public Dictionary<int, UIColor> percentageValuesWithColor = new Dictionary<int, UIColor>();
+        public Dictionary<UIColor,float> percentageValuesWithColor = new Dictionary<UIColor,float>();
         public int strokeWidth { get; set; }
         public nfloat minimumRadius { get; set; }
         public nfloat space { get; set; }
+        public nfloat animDuration { get; set; }
     }
+
 	public partial class CircleGrapgView : UIView
 	{
         public GraphSpecs graphSpecs;
@@ -36,14 +38,15 @@ namespace graph
             var centre = new CGPoint(x:Bounds.Width/2,y:Bounds.Height/2);
             CGPath ppp = new CGPath();
             int count = 0;
-            foreach(KeyValuePair<int,UIColor> specs in graphSpecs.percentageValuesWithColor){
-                var radius = graphSpecs.minimumRadius + count*graphSpecs.strokeWidth + count*graphSpecs.space;
+            var radiusM = Math.Min(Frame.Width / 2, Frame.Height / 2);
+            foreach(KeyValuePair<UIColor,float> specs in graphSpecs.percentageValuesWithColor){
+                var radius = radiusM - count*graphSpecs.strokeWidth - count*graphSpecs.space;
                 var startAndle = (nfloat)(Math.PI / 2);
-                var endAngle = (nfloat)(specs.Key*(Math.PI/50)+Math.PI/2);
+                var endAngle = (nfloat)(specs.Value*(Math.PI/50)+Math.PI/2);
                 var lineWidth = graphSpecs.strokeWidth;
-                var colors = specs.Value;
+                var colors = specs.Key;
                 var path = new UIBezierPath();
-                path.AddArc(centre,radius,startAndle,endAngle,true);
+                path.AddArc(centre,(nfloat)radius,startAndle,endAngle,true);
                 path.LineWidth = lineWidth;
 
                 var _arcLayer = new CAShapeLayer();
@@ -67,7 +70,7 @@ namespace graph
 
                 CABasicAnimation animation = new CABasicAnimation();
                 animation.KeyPath = "strokeEnd";
-                animation.Duration = 0.6;
+                animation.Duration = graphSpecs.animDuration;
                 animation.From = NSNumber.FromFloat(0);
                 animation.To = NSNumber.FromFloat(1);
                 lay.AddAnimation(animation, null);
