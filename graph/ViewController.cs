@@ -27,11 +27,6 @@ namespace graph
                 animDuration = 0.5f
             };
             circleGraphView.setGraph(specs1);
-            Console.WriteLine("View Load");
-            //var load = new LoadingSpinnerView(60);
-            //View.AddSubview(load);
-            //load.StartAnimation();
-            // Perform any additional setup after loading the view, typically from a nib.
         }
 
         public override void DidReceiveMemoryWarning()
